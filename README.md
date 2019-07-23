@@ -2,42 +2,35 @@
 
 |Column|Type|Options|
 |------|----|-------|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
-
-### Association
-- belongs_to :group
-- belongs_to :user
-|nickname|strings|null: false, foreign_key: true|
-|mail_adress|integer|null: false, foreign_key: true|
-|password|integer|null: false, foreign_key: true|
+|name|string|index: true, null: false, unique: true|
+|mail|strind|null: false, unique: true|
 
 ### Association
 
-- has_many :groups
+- has_many :groups, throudh: :group_users
+- has_many :group_users
 - has_many :comments
-- has_many :members, through: :member
 
 
 ## groupsテーブル
 
 |Column|Type|Options|
 |------|----|-------|
-|group_id|integer|null: false, foreign_key: true|
-|group_name|strings|null: false, foreign_key: true|
+|name|string|index: true, null: false, unique: true|
 
 ### Association
 
-- has_many :users
-- has_many :members, through: :member
+- has_many :users, through: :group_users
+- has_many :group_users
+- has_many :comments
 
 
-## membersテーブル
+## group_usersテーブル
 
 |Column|Type|Options|
 |------|----|-------|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
+|group|references|index: true, foreign_key: true, null: false|
+|user|references|index: true, foreign_key: true, null: false|
 
 ### Association
 
@@ -50,9 +43,13 @@
 
 |Column|Type|Options|
 |------|----|-------|
-|user_id|integer|null: false, foreign_key: true|
-|comment|strings|null: false, foreign_key: true|
+|body|text|null: false|
+|image|string||
+|group|references|foreign_key: true|
+|user|references|foreign_key: true|
 
 ### Association
 
 - belongs_to :user
+- belongs_to :group
+
